@@ -1,0 +1,266 @@
+<div class="reservation-container">
+  <div class="header">
+    <h1>Kafè Reservation System</h1>
+    <p class="subtitle">Reserve your table between July 24 - July 31</p>
+    <div class="header-actions">
+      <button class="btn btn-secondary" routerLink="/calendar">
+        ← Back to Calendar
+      </button>
+    </div>
+  </div>
+
+  <div class="reservation-form-wrapper" *ngIf="!reservationConfirmed">
+    <div class="progress-bar">
+      <div class="progress-step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <span class="step-number">1</span>
+        <span class="step-label">Date & Time</span>
+      </div>
+      <div class="progress-step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <span class="step-number">2</span>
+        <span class="step-label">Preferences</span>
+      </div>
+      <div class="progress-step" [class.active]="currentStep >= 3">
+        <span class="step-number">3</span>
+        <span class="step-label">Contact Info</span>
+      </div>
+    </div>
+
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+      <div class="form-step" *ngIf="currentStep === 1">
+        <h2>Select Date and Time</h2>
+        
+        <div class="form-group">
+          <label for="date">Reservation Date *</label>
+          <input 
+            type="date" 
+            id="date" 
+            formControlName="date"
+            [min]="minDate"
+            [max]="maxDate"
+            class="form-control">
+          <div class="error-message" *ngIf="reservationForm.get('date')?.touched && reservationForm.get('date')?.errors">
+            Please select a date
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="time">Preferred Time *</label>
+          <select id="time" formControlName="time" class="form-control">
+            <option value="">Select a time</option>
+            <option *ngFor="let slot of timeSlots" [value]="slot">{{slot}}</option>
+          </select>
+          <div class="error-message" *ngIf="reservationForm.get('time')?.touched && reservationForm.get('time')?.errors">
+            Please select a time
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="partySize">Party Size *</label>
+          <input 
+            type="number" 
+            id="partySize" 
+            formControlName="partySize"
+            min="1"
+            max="12"
+            class="form-control">
+          <div class="error-message" *ngIf="reservationForm.get('partySize')?.touched && reservationForm.get('partySize')?.errors">
+            Party size must be between 1 and 12
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+        </div>
+      </div>
+
+      <div class="form-step" *ngIf="currentStep === 2">
+        <h2>Select Preferences</h2>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="hasChildren">
+            Children will be in the party
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="wantsSmoking">
+            Someone would like to smoke
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="region">Dining Region *</label>
+          <div class="region-options">
+            <div 
+              *ngFor="let region of availableRegions" 
+              class="region-card"
+              [class.selected]="reservationForm.get('region')?.value === region.name"
+              (click)="reservationForm.get('region')?.setValue(region.name)">
+              <h4>{{region.name}}</h4>
+              <div class="region-details">
+                <span class="badge">Max: {{region.maxSize}} people</span>
+                <span class="badge" *ngIf="region.childrenAllowed">Children OK</span>
+                <span class="badge" *ngIf="!region.childrenAllowed">No Children</span>
+                <span class="badge" *ngIf="region.smokingAllowed">Smoking OK</span>
+                <span class="badge" *ngIf="!region.smokingAllowed">No Smoking</span>
+              </div>
+            </div>
+          </div>
+          <div class="warning-message" *ngIf="availableRegions.length === 0">
+            No regions available for your current selection. Please adjust your preferences.
+          </div>
+          <div class="error-message" *ngIf="reservationForm.get('region')?.touched && reservationForm.get('region')?.errors">
+            Please select a dining region
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" (click)="previousStep()">Back</button>
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+        </div>
+      </div>
+
+      <div class="form-step" *ngIf="currentStep === 3">
+        <h2>Contact Information</h2>
+
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name"
+            class="form-control">
+          <div class="error-message" *ngIf="reservationForm.get('name')?.touched && reservationForm.get('name')?.errors">
+            Please enter your name (at least 2 characters)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email"
+            class="form-control">
+          <div class="error-message" *ngIf="reservationForm.get('email')?.touched && reservationForm.get('email')?.errors">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            formControlName="phone"
+            class="form-control">
+          <div class="error-message" *ngIf="reservationForm.get('phone')?.touched && reservationForm.get('phone')?.errors">
+            Please enter a valid phone number
+          </div>
+        </div>
+
+        <div class="reservation-summary">
+          <h3>Reservation Summary</h3>
+          <div class="summary-item">
+            <span class="label">Date:</span>
+            <span>{{reservationForm.get('date')?.value | date:'fullDate'}}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Time:</span>
+            <span>{{reservationForm.get('time')?.value}}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Party Size:</span>
+            <span>{{reservationForm.get('partySize')?.value}} people</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Region:</span>
+            <span>{{reservationForm.get('region')?.value}}</span>
+          </div>
+          <div class="summary-item" *ngIf="reservationForm.get('hasChildren')?.value">
+            <span class="label">Children:</span>
+            <span>Yes</span>
+          </div>
+          <div class="summary-item" *ngIf="reservationForm.get('wantsSmoking')?.value">
+            <span class="label">Smoking:</span>
+            <span>Yes</span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" (click)="previousStep()">Back</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!reservationForm.valid">
+            Confirm Reservation
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="alternatives-panel" *ngIf="showAlternatives">
+      <div class="alert alert-warning">
+        <h3>Your selection is no longer available</h3>
+        <p>Here are some alternatives:</p>
+      </div>
+      
+      <div class="alternatives-section" *ngIf="alternatives.dates.length > 0">
+        <h4>Alternative Dates</h4>
+        <div class="alternative-options">
+          <button 
+            *ngFor="let date of alternatives.dates" 
+            class="btn btn-outline"
+            (click)="selectAlternativeDate(date)">
+            {{formatDate(date)}}
+          </button>
+        </div>
+      </div>
+
+      <div class="alternatives-section" *ngIf="alternatives.times.length > 0">
+        <h4>Alternative Times</h4>
+        <div class="alternative-options">
+          <button 
+            *ngFor="let time of alternatives.times" 
+            class="btn btn-outline"
+            (click)="selectAlternativeTime(time)">
+            {{time}}
+          </button>
+        </div>
+      </div>
+
+      <div class="alternatives-section" *ngIf="alternatives.regions.length > 0">
+        <h4>Alternative Regions</h4>
+        <div class="alternative-options">
+          <button 
+            *ngFor="let region of alternatives.regions" 
+            class="btn btn-outline"
+            (click)="selectAlternativeRegion(region)">
+            {{region.name}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-panel" *ngIf="reservationError">
+      <div class="alert alert-danger">
+        <h3>Reservation Failed</h3>
+        <p>Your selected slot is no longer available. Please choose from the alternatives above or make a new selection.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirmation-panel" *ngIf="reservationConfirmed">
+    <div class="success-icon">✓</div>
+    <h2>Reservation Confirmed!</h2>
+    <p>Thank you for your reservation at Kafè.</p>
+    <div class="confirmation-details">
+      <p><strong>Name:</strong> {{reservationForm.get('name')?.value}}</p>
+      <p><strong>Date:</strong> {{reservationForm.get('date')?.value | date:'fullDate'}}</p>
+      <p><strong>Time:</strong> {{reservationForm.get('time')?.value}}</p>
+      <p><strong>Party Size:</strong> {{reservationForm.get('partySize')?.value}} people</p>
+      <p><strong>Region:</strong> {{reservationForm.get('region')?.value}}</p>
+    </div>
+    <p class="confirmation-note">A confirmation email has been sent to {{reservationForm.get('email')?.value}}</p>
+    <button class="btn btn-primary" (click)="resetForm()">Make Another Reservation</button>
+  </div>
+</div>

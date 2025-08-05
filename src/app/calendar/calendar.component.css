@@ -1,0 +1,304 @@
+.calendar-container {
+  max-width: var(--dimension-xl);
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  font-family: var(--font-family);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.header h1 {
+  font-size: var(--font-xxl);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: var(--font-lg);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.calendar-day {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: center;
+}
+
+.calendar-day:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.calendar-day.selected {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.calendar-day.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.calendar-day.available {
+  background-color: var(--bg-success-light);
+  border-color: var(--border-success);
+}
+
+.calendar-day.moderate {
+  background-color: var(--bg-warning-light);
+  border-color: var(--border-warning);
+}
+
+.calendar-day.limited {
+  background-color: var(--bg-limited);
+  border-color: var(--border-limited);
+}
+
+.calendar-day.fully-booked {
+  background-color: var(--bg-danger-light);
+  border-color: var(--border-danger);
+}
+
+.day-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.day-of-week {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.day-number {
+  display: block;
+  font-size: var(--font-xl);
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.availability-info {
+  margin-top: var(--spacing-sm);
+}
+
+.availability-bar {
+  width: 100%;
+  height: var(--dimension-xs);
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+}
+
+.availability-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width var(--transition-base);
+}
+
+.availability-text {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.time-slots-section {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.time-slots-section h2 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.time-slots-grid {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.time-slot {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+}
+
+.time-header {
+  color: var(--text-primary);
+  font-size: calc(var(--font-base) * 1.25);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--dimension-md), 1fr));
+  gap: var(--spacing-md);
+}
+
+.region-slot {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.region-slot.available {
+  border-color: var(--color-success);
+}
+
+.region-slot.available:hover {
+  background-color: var(--bg-success-light);
+  filter: brightness(0.95);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.region-slot.unavailable {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-secondary);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.region-name {
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.region-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-sm);
+}
+
+.capacity {
+  color: var(--text-secondary);
+}
+
+.status {
+  font-weight: 500;
+  color: var(--color-success);
+}
+
+.unavailable .status {
+  color: var(--color-danger);
+}
+
+.region-features {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-sm);
+}
+
+.feature {
+  font-size: var(--font-sm);
+  background: var(--bg-tertiary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+.legend {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.legend h3 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--dimension-md), 1fr));
+  gap: var(--spacing-md);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.legend-color {
+  width: var(--dimension-sm);
+  height: var(--dimension-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-primary);
+}
+
+.legend-color.available {
+  background-color: var(--bg-success-light);
+  border-color: var(--border-success);
+}
+
+.legend-color.moderate {
+  background-color: var(--bg-warning-light);
+  border-color: var(--border-warning);
+}
+
+.legend-color.limited {
+  background-color: var(--bg-limited);
+  border-color: var(--border-limited);
+}
+
+.legend-color.fully-booked {
+  background-color: var(--bg-danger-light);
+  border-color: var(--border-danger);
+}
+
+.actions {
+  text-align: center;
+}
+
+.btn {
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-base);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--text-white);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .regions-grid {
+    grid-template-columns: 1fr;
+  }
+}

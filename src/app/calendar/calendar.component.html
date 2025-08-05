@@ -1,0 +1,95 @@
+<div class="calendar-container">
+  <div class="header">
+    <h1>Kafè Availability Calendar</h1>
+    <p class="subtitle">July 24 - July 31, 2024</p>
+  </div>
+
+  <div class="calendar-grid" *ngIf="!isCalendarCollapsed">
+    <div 
+      *ngFor="let day of days" 
+      class="calendar-day"
+      [class.selected]="selectedDate?.getTime() === day.date.getTime()"
+      [class.disabled]="!day.isAvailable"
+      [ngClass]="getAvailabilityClass(day)"
+      (click)="selectDate(day)">
+      
+      <div class="day-header">
+        <span class="day-of-week">{{day.dayOfWeek}}</span>
+        <span class="day-number">{{day.dayNumber}}</span>
+      </div>
+      
+      <div class="availability-info">
+        <div class="availability-bar">
+          <div 
+            class="availability-fill" 
+            [style.width.%]="getAvailabilityPercentage(day)">
+          </div>
+        </div>
+        <span class="availability-text">
+          {{day.availableSlots}}/{{day.totalSlots}} slots
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-slots-section" *ngIf="selectedDate">
+    <h2>Available Time Slots for {{selectedDate | date:'fullDate'}}</h2>
+    
+    <div class="time-slots-grid">
+      <div *ngFor="let slot of timeSlots" class="time-slot">
+        <h3 class="time-header">{{slot.time}}</h3>
+        
+        <div class="regions-grid">
+          <div 
+            *ngFor="let region of regions" 
+            class="region-slot"
+            [class.available]="slot.regions[region.name]"
+            [class.unavailable]="!slot.regions[region.name]"
+            (click)="slot.regions[region.name] && selectedDate && navigateToReservation(selectedDate, slot.time, region.name)">
+            
+            <div class="region-name">{{region.name}}</div>
+            <div class="region-info">
+              <span class="capacity">Max: {{region.maxSize}}</span>
+              <span class="status">
+                {{slot.regions[region.name] ? 'Available' : 'Booked'}}
+              </span>
+            </div>
+            
+            <div class="region-features">
+              <span *ngIf="region.childrenAllowed" class="feature">👶 Children OK</span>
+              <span *ngIf="region.smokingAllowed" class="feature">🚬 Smoking OK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h3>Legend</h3>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-color available"></span>
+        <span>Good availability (70%+)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color moderate"></span>
+        <span>Moderate availability (30-70%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color limited"></span>
+        <span>Limited availability (<30%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color fully-booked"></span>
+        <span>Fully booked</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" routerLink="/reservation">
+      Go to Reservation Form
+    </button>
+  </div>
+</div>

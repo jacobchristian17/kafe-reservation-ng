@@ -1,0 +1,89 @@
+:root {
+  /* Colors */
+  --color-primary: #3498db;
+  --color-primary-hover: #2980b9;
+  --color-secondary: #2c3e50;
+  --color-secondary-light: #7f8c8d;
+  --color-success: #4caf50;
+  --color-warning: #ff9800;
+  --color-danger: #e74c3c;
+  --color-info: #3498db;
+  
+  /* Background colors */
+  --bg-primary: #fff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #ecf0f1;
+  --bg-success-light: #e8f5e9;
+  --bg-warning-light: #fff3e0;
+  --bg-danger-light: #ffebee;
+  --bg-limited: #ffeaa7;
+  
+  /* Border colors */
+  --border-primary: #e0e0e0;
+  --border-secondary: #bdc3c7;
+  --border-success: #4caf50;
+  --border-warning: #ff9800;
+  --border-danger: #e74c3c;
+  --border-limited: #fdcb6e;
+  
+  /* Text colors */
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --text-light: #d9d9da;
+  --text-white: #fff;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  /* Font sizes */
+  --font-xs: 0.75rem;
+  --font-sm: 0.8rem;
+  --font-base: 1rem;
+  --font-md: 1.1rem;
+  --font-lg: 1.2rem;
+  --font-xl: 1.5rem;
+  --font-xxl: 2.5rem;
+  
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  
+  /* Dimensions */
+  --dimension-xs: 8px;
+  --dimension-sm: 20px;
+  --dimension-md: 200px;
+  --dimension-lg: 768px;
+  --dimension-xl: 1200px;
+  
+  /* Font family */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+}
